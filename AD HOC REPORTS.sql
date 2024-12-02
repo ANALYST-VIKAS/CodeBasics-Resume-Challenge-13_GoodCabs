@@ -39,8 +39,7 @@ LEVEL.FOR EACH CITY AND MONTH AND COMPARE THE ACTUAL TOTAL TRIPS WITH THE TARGET
  performance_status
  %_difference
  */
- SELECT c.city_name,MONTHNAME(ft.month) AS month_name
- ,ft.actual_trips,tgt.total_target_trips AS target_trips,
+SELECT c.city_name,MONTHNAME(ft.month) AS month_name,ft.actual_trips,tgt.total_target_trips AS target_trips,
 CASE WHEN ft.actual_trips>tgt.total_target_trips THEN "ABOVE TARGET" 
 ELSE "BELOW TARGET" 
 END AS performance_status,
@@ -155,7 +154,7 @@ FROM
 SELECT DATE_FORMAT(date,"%Y-%m-01") date,city_id,SUM(fare_amount) revenue,
 DENSE_RANK()OVER(PARTITION BY city_id ORDER BY SUM(fare_amount) DESC) AS drnk,
 SUM(SUM(fare_amount))OVER(PARTITION BY city_id) AS total_revenue
- FROM fact_trips 
+FROM fact_trips 
 GROUP BY city_id,DATE_FORMAT(date,"%Y-%m-01")
 ) t 
 INNER JOIN dim_city c ON c.city_id=t.city_id
@@ -178,6 +177,8 @@ CONCAT(ROUND(repeat_passengers*100/total_passengers,2)," ","%") AS monthly_repea
 FROM fact_passenger_summary ps INNER JOIN 
 dim_city c 	ON c.city_id=ps.city_id
 ORDER BY city_name,MONTH(month);
+
+
 -- OVERALL  CITY REPEAT PASSENGER RATE %
 SELECT 	city_name,SUM(total_passengers) AS total_passengers,SUM(repeat_passengers) AS repeat_passengers,
 CONCAT(ROUND(SUM(repeat_passengers)*100/SUM(total_passengers),2)," ","%") AS overall_repeat_passenger_rate
@@ -187,6 +188,7 @@ GROUP BY city_name
 ORDER BY SUM(repeat_passengers)*100/SUM(total_passengers) DESC;
 /*
 EXTRA QUESTIONS
+
 REVENUE GROWTH RATE MONTHLY
 */
 WITH CTE AS
