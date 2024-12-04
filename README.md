@@ -23,6 +23,6 @@ https://codebasics.io/challenge/codebasics-resume-project-challenge
 ## Deliverables  
 - **SQL Queries:** Repository contains the SQL scripts used for analysis.  
 - **Visualizations:** PowerBI dashboards highlighting the insights from the data.  
-- **Presentation:** .  
+- **Video Presentation:**  https://youtu.be/l2t9N2bxSBc
 
 
